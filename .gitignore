@@ -2,3 +2,5 @@
 non-vehicles_smallset
 vehicles_smallset
 .DS_Store
+outputs/
+out-*
