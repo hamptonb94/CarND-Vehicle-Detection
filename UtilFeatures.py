@@ -58,7 +58,17 @@ def color_hist(img, nbins=32, bins_range=(0, 256)):
 
 # Define a function to extract features from a list of images
 # Have this function call bin_spatial() and color_hist()
-def extract_features(imgs):
+def extract_features(imgs,
+                        color_space    = kcolor_space,
+                        spatial_size   = kspatial_size,
+                        hist_bins      = khist_bins,
+                        orient         = korient, 
+                        pix_per_cell   = kpix_per_cell,
+                        cell_per_block = kcell_per_block,
+                        hog_channel    = khog_channel,
+                        spatial_feat   = kspatial_feat,
+                        hist_feat      = khist_feat,
+                        hog_feat       = khog_feat):
     # Create a list to append feature vectors to
     features = []
     # Iterate through the list of images
