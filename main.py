@@ -18,6 +18,7 @@ def imagePipeline(image, fileName=None):
         mpimg.imsave(os.path.join("test_images/outputs/", fileName), image)
         
     imgFinal = detector.update(image)
+    
     if fileName:
         boxImg = UtilWindows.draw_boxes(image, detector.windows1, color=(0, 0, 255), thick=3)
         mpimg.imsave(os.path.join("test_images/outputs/", fileName+",1,windows.jpg"), boxImg)
@@ -25,6 +26,9 @@ def imagePipeline(image, fileName=None):
         mpimg.imsave(os.path.join("test_images/outputs/", fileName+",2,windows.jpg"), boxImg)
         boxImg = UtilWindows.draw_boxes(image, detector.windows3, color=(255, 0, 0), thick=1)
         mpimg.imsave(os.path.join("test_images/outputs/", fileName+",3,windows.jpg"), boxImg)
+        
+        mpimg.imsave(os.path.join("test_images/outputs/", fileName+",4,boxes.jpg"), detector.windowImg)
+        mpimg.imsave(os.path.join("test_images/outputs/", fileName+",5,heat.jpg"), detector.heatImg)
         
         mpimg.imsave(os.path.join("test_images/outputs/", fileName+",9,final.jpg"), imgFinal)
     
@@ -51,7 +55,7 @@ def processImages():
         print("Processing: ", fileName)
         fullName = os.path.join("test_images",fileName)
         image = mpimg.imread(fullName)
-        detector = CarDetector() # reset detectors for test images
+        detector = CarDetector(history=False) # reset detectors for test images
         imagePipeline(image, fileName)
         
 from moviepy.editor import VideoFileClip
