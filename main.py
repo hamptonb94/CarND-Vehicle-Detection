@@ -19,8 +19,13 @@ def imagePipeline(image, fileName=None):
         
     imgFinal = detector.update(image)
     if fileName:
-        boxImg = UtilWindows.draw_boxes(image, detector.windows, color=(0, 0, 255), thick=6)
+        boxImg = UtilWindows.draw_boxes(image, detector.windows1, color=(0, 0, 255), thick=3)
         mpimg.imsave(os.path.join("test_images/outputs/", fileName+",1,windows.jpg"), boxImg)
+        boxImg = UtilWindows.draw_boxes(image, detector.windows2, color=(0, 255, 0), thick=2)
+        mpimg.imsave(os.path.join("test_images/outputs/", fileName+",2,windows.jpg"), boxImg)
+        boxImg = UtilWindows.draw_boxes(image, detector.windows3, color=(255, 0, 0), thick=1)
+        mpimg.imsave(os.path.join("test_images/outputs/", fileName+",3,windows.jpg"), boxImg)
+        
         mpimg.imsave(os.path.join("test_images/outputs/", fileName+",9,final.jpg"), imgFinal)
     
     return imgFinal
