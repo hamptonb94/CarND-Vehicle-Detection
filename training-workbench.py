@@ -17,7 +17,7 @@ cell_per_block = 2 # HOG cells per block
 hog_channel = 'ALL' # Can be 0, 1, 2, or "ALL"
 spatial_size = (16, 16) # Spatial binning dimensions
 hist_bins = 32    # Number of histogram bins
-spatial_feat = False # Spatial features on or off
+spatial_feat = True # Spatial features on or off
 hist_feat = False # Histogram features on or off
 hog_feat = True # HOG features on or off
 
@@ -36,25 +36,18 @@ fileName = "out-traintest,%d,%d.dat"%(spatial_feat,hist_feat)
 outFile = open(fileName, 'w')
 
 # Read in cars and notcars
-images  = glob.glob('./vehicles_smallset/**/*.jpeg', recursive=True)
-images += glob.glob('./non-vehicles_smallset/**/*.jpeg', recursive=True)
-cars = []
-notcars = []
-for image in images:
-    if 'image' in image or 'extra' in image:
-        notcars.append(image)
-    else:
-        cars.append(image)
+cars    = glob.glob('../image-data/vehicles_smallset/**/*.jpeg', recursive=True)
+notcars = glob.glob('../image-data/non-vehicles_smallset/**/*.jpeg', recursive=True)
 
 # experiment with different combinations
 count = 0
-for color_space in ['RGB', 'HSV', 'LUV', 'HLS', 'YUV', 'YCrCb']:
-    for orient in [7,9,11]:
-        for pix_per_cell in [4,8,16]:
-            for cell_per_block in [2,4]:
-                for hog_channel in [0,1,2,'ALL']:
-                    for spatial_size in [(16, 16), (32, 32)]:
-                        for hist_bins in [16,32]:
+for color_space in color_spaces:
+    for orient in orients:
+        for pix_per_cell in pix_per_cells:
+            for cell_per_block in cell_per_blocks:
+                for hog_channel in hog_channels:
+                    for spatial_size in spatial_sizes:
+                        for hist_bins in hist_binss:
                             # Check the training time for the SVC
                             t=time.time()
                             count += 1
