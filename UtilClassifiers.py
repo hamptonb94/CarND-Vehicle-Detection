@@ -29,16 +29,10 @@ class CarClassifier:
         print("Training the classifier")
         
         # Read in cars and notcars
-        images  = glob.glob('./vehicles_smallset/**/*.jpeg', recursive=True)
-        images += glob.glob('./non-vehicles_smallset/**/*.jpeg', recursive=True)
-        cars = []
-        notcars = []
-        for image in images:
-            if 'image' in image or 'extra' in image:
-                notcars.append(image)
-            else:
-                cars.append(image)        
+        cars    = glob.glob('../image-data/vehicles/**/*.png', recursive=True)
+        notcars = glob.glob('../image-data/non-vehicles/**/*.png', recursive=True)
         
+        print("Number of cars = {} and number of non-cars = {}".format(len(cars), len(notcars)))
         car_features    = extract_features(cars)
         notcar_features = extract_features(notcars)
 
@@ -56,7 +50,6 @@ class CarClassifier:
         rand_state = np.random.randint(0, 100)
         X_train, X_test, y_train, y_test = train_test_split(scaled_X, y, test_size=0.2, random_state=rand_state)
 
-        print('Using:',orient,'orientations',pix_per_cell, 'pixels per cell and', cell_per_block,'cells per block')
         print('Feature vector length:', len(X_train[0]))
         # Use a linear SVC 
         self.svc = LinearSVC()
