@@ -2,6 +2,7 @@ import os
 import numpy as np
 import cv2
 import glob
+import time
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 
@@ -24,8 +25,6 @@ def imagePipeline(image, fileName=None):
         mpimg.imsave(os.path.join("test_images/outputs/", fileName+",1,windows.jpg"), boxImg)
         boxImg = UtilWindows.draw_boxes(image, detector.windows2, color=(0, 255, 0), thick=2)
         mpimg.imsave(os.path.join("test_images/outputs/", fileName+",2,windows.jpg"), boxImg)
-        boxImg = UtilWindows.draw_boxes(image, detector.windows3, color=(255, 0, 0), thick=1)
-        mpimg.imsave(os.path.join("test_images/outputs/", fileName+",3,windows.jpg"), boxImg)
         
         mpimg.imsave(os.path.join("test_images/outputs/", fileName+",4,boxes.jpg"), detector.windowImg)
         mpimg.imsave(os.path.join("test_images/outputs/", fileName+",5,heat.jpg"), detector.heatImg)
@@ -52,11 +51,14 @@ def processImages():
     for fileName in fileNames:
         if 'jpg' not in fileName:
             continue
-        print("Processing: ", fileName)
+        print("Processing: ", fileName, end='')
+        t1 = time.time()
         fullName = os.path.join("test_images",fileName)
         image = mpimg.imread(fullName)
         detector = CarDetector(history=False) # reset detectors for test images
         imagePipeline(image, fileName)
+        t2 = time.time()
+        print("   -Time duration: ", round(t2-t1, 3))
         
 from moviepy.editor import VideoFileClip
 
