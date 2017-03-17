@@ -14,15 +14,14 @@ class CarDetector:
         self.threshold  = 1
         self.histLength = 1
         if history:
-            self.threshold  =  5
+            self.threshold  =  3
             self.histLength = 10
         self.heatmaps = deque(maxlen=self.histLength)
 
     
     def setup(self, image):
-        self.windows1 = slide_window(image, y_start_stop=[400, None], xy_window=(128, 128), xy_overlap=(0.8, 0.8))
-        self.windows2 = slide_window(image, y_start_stop=[400, 592],  xy_window=( 64,  64), xy_overlap=(0.6, 0.6))
-        self.windows3 = slide_window(image, y_start_stop=[400, 502],  xy_window=( 32,  32), xy_overlap=(0.6, 0.6))
+        self.windows1 = slide_window(image, y_start_stop=[380, 636], xy_window=(128, 128), xy_overlap=(0.8, 0.8))
+        self.windows2 = slide_window(image, y_start_stop=[400, 560],  xy_window=( 64,  64), xy_overlap=(0.8, 0.8))
         self.ready = True
     
     def update(self, image):
@@ -31,8 +30,7 @@ class CarDetector:
         
         hot_windows1 = search_windows(image, self.windows1, self.classifier)
         hot_windows2 = search_windows(image, self.windows2, self.classifier)
-        hot_windows3 = search_windows(image, self.windows3, self.classifier)
-        hot_windows = hot_windows1 + hot_windows2 + hot_windows3
+        hot_windows = hot_windows1 + hot_windows2
         
         # visualize raw boxes found around cars
         draw_image = np.copy(image)
@@ -66,7 +64,7 @@ class CarDetector:
         totalHeatmap *= 25   
         self.heatmap  = np.clip(totalHeatmap, 0, 255)
         self.heatMask = np.dstack((self.heatmap, np.zeros_like(self.heatmap), np.zeros_like(self.heatmap))).astype(np.uint8)
-        self.heatImg  = cv2.addWeighted(image, 1.0, self.heatMask, 0.8, 0.0)
+        self.heatImg  = self.heatMask #cv2.addWeighted(image, 1.0, self.heatMask, 0.8, 0.0)
 
         # Find final boxes from heatmap using label function
         labels = label(self.heatmap)
