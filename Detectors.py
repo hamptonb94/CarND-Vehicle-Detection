@@ -14,8 +14,8 @@ class CarDetector:
         self.threshold  = 1
         self.histLength = 1
         if history:
-            self.threshold  =  3
-            self.histLength = 10
+            self.threshold  = 12
+            self.histLength = 25
         self.heatmaps = deque(maxlen=self.histLength)
 
     
@@ -49,6 +49,9 @@ class CarDetector:
         for box in bbox_list:
             heatmap[box[0][1]:box[1][1], box[0][0]:box[1][0]] += 1
         
+        # Need a minimum of 2 to be counted
+        heatmap[heatmap < 2] = 0
+        
         # Add latest map to our deck
         self.heatmaps.appendleft(heatmap)
         
@@ -81,6 +84,8 @@ class CarDetector:
             nonzerox = np.array(nonzero[1])
             # Define a bounding box based on min/max x and y
             bbox = ((np.min(nonzerox), np.min(nonzeroy)), (np.max(nonzerox), np.max(nonzeroy)))
+            if abs(bbox[0][0] - bbox[1][0]) <= 4 or abs(bbox[0][1] - bbox[1][1]) <= 4:
+                continue
             # Draw the box on the image
             cv2.rectangle(labelImage, bbox[0], bbox[1], (0,0,255), 6)
         # Return the image
