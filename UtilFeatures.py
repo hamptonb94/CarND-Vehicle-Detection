@@ -5,12 +5,12 @@ from skimage.feature import hog
 
 # Constants for feature extractions
 
-kcolor_space = 'YCrCb' # Can be RGB, HSV, LUV, HLS, YUV, YCrCb
-korient = 9  # HOG orientations
+kcolor_space = 'LUV' # Can be RGB, HSV, LUV, HLS, YUV, YCrCb
+korient = 12  # HOG orientations
 kpix_per_cell = 8 # HOG pixels per cell
 kcell_per_block = 2 # HOG cells per block
-khog_channel = 'ALL' # Can be 0, 1, 2, or "ALL"
-kspatial_size = (16, 16) # Spatial binning dimensions
+khog_channel = "ALL" # Can be 0, 1, 2, or "ALL"
+kspatial_size = (32, 32) # Spatial binning dimensions
 khist_bins = 32    # Number of histogram bins
 kspatial_feat = True # Spatial features on or off
 khist_feat = True # Histogram features on or off
@@ -75,9 +75,12 @@ def extract_features(imgs,
     for file in imgs:
         file_features = []
         # Read in each one by one
-        image = mpimg.imread(file)
+        image = cv2.imread(file)
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) # Always want RGB order
         
-        img_features = single_img_features(image)
+        img_features = single_img_features(image, color_space,spatial_size,hist_bins,orient, 
+                        pix_per_cell,cell_per_block,hog_channel,spatial_feat,hist_feat,hog_feat)
+        
         features.append(img_features)
     # Return list of feature vectors
     return features
