@@ -21,7 +21,7 @@ class CarDetector:
     
     def setup(self, image):
         self.windows1 = slide_window(image, y_start_stop=[380, 636], xy_window=(128, 128), xy_overlap=(0.8, 0.8))
-        self.windows2 = slide_window(image, y_start_stop=[400, 560],  xy_window=( 64,  64), xy_overlap=(0.8, 0.8))
+        self.windows2 = slide_window(image, y_start_stop=[400, 560], xy_window=( 64,  64), xy_overlap=(0.8, 0.8))
         self.ready = True
     
     def update(self, image):
