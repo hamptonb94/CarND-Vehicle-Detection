@@ -58,8 +58,8 @@ With the full dataset, I tuned the parameters a bit more.  The parameters, and t
 
 I decided to do 2 different sized search windows.  A larger size (128x128) to cover all of the roadway, and a smaller size (64x64) to cover parts of the road a little further from the car.  Here are some examples:
 
-<img alt="Raw Chessboard" src="./output_images/test1.jpg,1,windows.jpg" height="220">
-<img alt="Raw Chessboard" src="./output_images/test1.jpg,2,windows.jpg" height="220">
+<img alt="Raw Chessboard" src="./output_images/test1.jpg,1,windows.jpg" height="280">
+<img alt="Raw Chessboard" src="./output_images/test1.jpg,2,windows.jpg" height="280">
 
 The code to generate the windows and search them can be found in the `UtilWindows.py` file.  The functions were taken from class quizzes and notes.  
 
@@ -69,8 +69,8 @@ I tried a lot of experiments with the window overlaps and sizes.  At first I had
 
 I ended up the LUV color space, although there were several that would work about as well.  I also ended up with all 3 channels for HOG features.  When I removed spatial parameters and color histograms the accuracy dropped, so I kept both of these methods active.  Here are some examples of boxes found on the test images:
 
-<img alt="Raw Chessboard" src="./output_images/test1.jpg,4,boxes.jpg" height="220">
-<img alt="Raw Chessboard" src="./output_images/test4.jpg,4,boxes.jpg" height="220">
+<img alt="Raw Chessboard" src="./output_images/test1.jpg,4,boxes.jpg" height="280">
+<img alt="Raw Chessboard" src="./output_images/test4.jpg,4,boxes.jpg" height="280">
 
 To optimize performance, I tried to keep the number of windows I searched to a minimum.  I tried going down to only 1 HOG color channel, and cutting out the color histograms, but the accuracy dropped too much.  
 
@@ -90,13 +90,13 @@ I wrote a class called `CarDetector` in the `Detectors.py` file.  In the `__init
 
 On line 60 and 61 I then sum up the most current 25 frames of heat maps.  This total heap map is then zeroed out on any pixels that do not meet the threshold for keeping.  Once the total heapmap is through the threshold, I then use the `scipy.ndimage.measurements import label` function to label the blobs within the heat map.  On line 76 I use a function found in the class notes to draw bounding boxes around the labeled blobs and return the final answer for that frame.  Here are some images with just the heat maps drawn in the red color channel.
 
-<img alt="Raw Chessboard" src="./output_images/test4.jpg,5,heat.jpg" height="220">
-<img alt="Raw Chessboard" src="./output_images/test5.jpg,5,heat.jpg" height="220">
+<img alt="Raw Chessboard" src="./output_images/test4.jpg,5,heat.jpg" height="280">
+<img alt="Raw Chessboard" src="./output_images/test5.jpg,5,heat.jpg" height="280">
 
 And here are the resulting final bounding boxes from those heat maps:
 
-<img alt="Raw Chessboard" src="./output_images/test4.jpg,9,final.jpg" height="220">
-<img alt="Raw Chessboard" src="./output_images/test5.jpg,9,final.jpg" height="220">
+<img alt="Raw Chessboard" src="./output_images/test4.jpg,9,final.jpg" height="280">
+<img alt="Raw Chessboard" src="./output_images/test5.jpg,9,final.jpg" height="280">
 
 ---
 
