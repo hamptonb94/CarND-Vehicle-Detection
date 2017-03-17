@@ -14,7 +14,7 @@ class CarDetector:
         self.threshold  = 1
         self.histLength = 1
         if history:
-            self.threshold  = 12
+            self.threshold  = 22
             self.histLength = 25
         self.heatmaps = deque(maxlen=self.histLength)
 
@@ -84,7 +84,7 @@ class CarDetector:
             nonzerox = np.array(nonzero[1])
             # Define a bounding box based on min/max x and y
             bbox = ((np.min(nonzerox), np.min(nonzeroy)), (np.max(nonzerox), np.max(nonzeroy)))
-            if abs(bbox[0][0] - bbox[1][0]) <= 4 or abs(bbox[0][1] - bbox[1][1]) <= 4:
+            if abs(bbox[0][0] - bbox[1][0]) <= 32 or abs(bbox[0][1] - bbox[1][1]) <= 32:
                 continue
             # Draw the box on the image
             cv2.rectangle(labelImage, bbox[0], bbox[1], (0,0,255), 6)
